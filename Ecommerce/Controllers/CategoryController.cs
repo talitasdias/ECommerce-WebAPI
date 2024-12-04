@@ -29,5 +29,19 @@ namespace Ecommerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetCategory{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            try
+            {
+                var category = _context.Categories.FirstOrDefault(category => category.ID == id);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
