@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace Ecommerce.DataBase
@@ -20,7 +21,8 @@ public class Category
 {
     [Key]
     [Column(TypeName = "text")]
-    public string ID { get; set; }
+    [JsonIgnore]
+    public string ID { get; private set; } = Guid.NewGuid().ToString();
 
     [Column(TypeName = "text")]
     public string Title { get; set; }
@@ -29,5 +31,6 @@ public class Category
     public string Description { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime CreatedAt { get; set; }
+    [JsonIgnore]
+    public DateTime CreatedAt { get; private set; } = DateTime.Now;
 }
