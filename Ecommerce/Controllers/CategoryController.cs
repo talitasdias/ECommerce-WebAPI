@@ -15,10 +15,19 @@ namespace Ecommerce.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpPost("InsertCategory")]
+        public async Task<IActionResult> Insert([FromBody] Category category)
         {
-            return Ok(_context.Categories.ToList());
+            try
+            {
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
