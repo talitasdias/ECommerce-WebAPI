@@ -31,6 +31,5 @@ public class Category
     public string Description { get; set; }
 
     [Column(TypeName = "datetime")]
-    [JsonIgnore]
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
 }
