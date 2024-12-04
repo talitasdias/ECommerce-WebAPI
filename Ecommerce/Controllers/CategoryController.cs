@@ -62,5 +62,21 @@ namespace Ecommerce.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("DeleteCategory{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+                return Ok("Sucessfully removed!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
