@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Ecommerce.Controllers
 {
@@ -36,7 +37,11 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                var category = _context.Categories.FirstOrDefault(category => category.ID == id);
+                Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
+
+                if (category == null)
+                    return Ok($"No record was found for the ID{id}");
+
                 return Ok(category);
             }
             catch (Exception ex)
@@ -51,10 +56,16 @@ namespace Ecommerce.Controllers
             try
             {
                 Category categoryData = _context.Categories.FirstOrDefault(category => category.ID == id);
+
+                if (categoryData == null)
+                    return Ok($"No record was found for the ID{id}");
+
                 categoryData.Title = category.Title;
                 categoryData.Description = category.Description;
+
                 _context.Categories.Update(categoryData);
                 await _context.SaveChangesAsync();
+
                 return Ok(categoryData);
             }
             catch (Exception ex)
@@ -69,8 +80,13 @@ namespace Ecommerce.Controllers
             try
             {
                 Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
+
+                if (category == null)
+                    return Ok($"No record was found for the ID{id}");
+
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
+
                 return Ok("Sucessfully removed!");
             }
             catch (Exception ex)
