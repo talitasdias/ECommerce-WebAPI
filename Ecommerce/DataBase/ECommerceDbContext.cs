@@ -21,7 +21,6 @@ public class Category
 {
     [Key]
     [Column(TypeName = "text")]
-    [JsonIgnore]
     public string ID { get; private set; } = Guid.NewGuid().ToString();
 
     [Column(TypeName = "text")]
