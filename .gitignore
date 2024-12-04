@@ -1,0 +1,52 @@
+# Excluir pastas bin e obj (arquivos compilados)
+**/bin/
+**/obj/
+
+# Excluir arquivos gerados pelo Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Excluir arquivos de build do .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Configurações locais
+appsettings.Development.json
+
+# Excluir logs e debug
+*.log
+*.tlog
+
+# Excluir pacotes e dependências locais
+packages/
+*.nupkg
+*.snupkg
+
+# Excluir arquivos de publicação
+.publish/
+
+# Cache e configurações do sistema operacional
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Configurações específicas do OneDrive (como no seu caminho atual)
+*.tmp
+~*.tmp
+~$*
+
+# Excluir arquivos temporários
+*.temp
+*.tmp
+*.bak
+*.swp
+*.idea/
+
+# Configurações do Rider e VSCode (se aplicável)
+.idea/
+.vscode/
