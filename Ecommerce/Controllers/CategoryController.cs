@@ -1,8 +1,6 @@
 ﻿using Ecommerce.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Ecommerce.Controllers
 {
@@ -28,11 +26,11 @@ namespace Ecommerce.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
-        [HttpGet("GetCategory{id}")]
+        [HttpGet("GetCategory/{id}")]
         public async Task<IActionResult> GetById(string id)
         {
             try
@@ -40,13 +38,13 @@ namespace Ecommerce.Controllers
                 Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
 
                 if (category == null)
-                    return Ok($"No record was found for the ID{id}");
+                    return NotFound($"No record was found for the ID{id}");
 
                 return Ok(category);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -58,7 +56,7 @@ namespace Ecommerce.Controllers
                 Category categoryData = _context.Categories.FirstOrDefault(category => category.ID == id);
 
                 if (categoryData == null)
-                    return Ok($"No record was found for the ID{id}");
+                    return NotFound($"No record was found for the ID{id}");
 
                 categoryData.Title = category.Title;
                 categoryData.Description = category.Description;
@@ -70,7 +68,7 @@ namespace Ecommerce.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -82,7 +80,7 @@ namespace Ecommerce.Controllers
                 Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
 
                 if (category == null)
-                    return Ok($"No record was found for the ID{id}");
+                    return NotFound($"No record was found for the ID{id}");
 
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
@@ -91,7 +89,7 @@ namespace Ecommerce.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

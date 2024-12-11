@@ -1,19 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 
 namespace Ecommerce.DataBase
 {
-    public class ECommerceDbContext : DbContext
+    public class ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : DbContext(options)
     {
         public DbSet<Category> Categories { get; set; }
-
-        public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options)
-        : base(options)
-        {
-        }
     }
 }
 
