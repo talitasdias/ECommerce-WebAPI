@@ -1,4 +1,5 @@
 ﻿using Ecommerce.DataBase;
+using Ecommerce.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +17,21 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost("InsertCategory")]
-        public async Task<IActionResult> Insert([FromBody] Category category)
+        public async Task<IActionResult> Insert([FromBody] CategoryDTO categoryDto)
         {
             try
             {
+                Category categoryData = _context.Categories.FirstOrDefault(cat => cat.Title == categoryDto.Title);
+
+                if (categoryData != null)
+                    return Conflict("Category already exists in the database!");
+
+                Category category = new()
+                {
+                    Title = categoryDto.Title,
+                    Description = categoryDto.Description
+                };
+
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
                 return Ok(category);
@@ -38,7 +50,7 @@ namespace Ecommerce.Controllers
                 Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
 
                 if (category == null)
-                    return NotFound($"No record was found for the ID{id}");
+                    return NotFound($"No record was found for the ID: {id}");
 
                 return Ok(category);
             }
@@ -49,17 +61,17 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPut("UpdateCategory{id}")]
-        public async Task<IActionResult> Update([FromBody] Category category, string id)
+        public async Task<IActionResult> Update([FromBody] CategoryDTO categoryDTO, string id)
         {
             try
             {
                 Category categoryData = _context.Categories.FirstOrDefault(category => category.ID == id);
 
                 if (categoryData == null)
-                    return NotFound($"No record was found for the ID{id}");
+                    return NotFound($"No record was found for the ID: {id}");
 
-                categoryData.Title = category.Title;
-                categoryData.Description = category.Description;
+                categoryData.Title = categoryDTO.Title;
+                categoryData.Description = categoryDTO.Description;
 
                 _context.Categories.Update(categoryData);
                 await _context.SaveChangesAsync();
@@ -80,7 +92,7 @@ namespace Ecommerce.Controllers
                 Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
 
                 if (category == null)
-                    return NotFound($"No record was found for the ID{id}");
+                    return NotFound($"No record was found for the ID: {id}");
 
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
