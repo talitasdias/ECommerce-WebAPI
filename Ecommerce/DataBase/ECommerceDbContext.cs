@@ -41,5 +41,5 @@ public class User
     public string Email { get; set; }
 
     [Column(TypeName = "text")]
-    public string Senha { get; private set; }
+    public string Password { get; set; }
 }
