@@ -30,7 +30,7 @@ namespace Ecommerce.Controllers
                 {
                     Name = userInfo.Name,
                     Email = userInfo.Email,
-                    Password = userInfo.Password
+                    Password = BC.HashPassword(userInfo.Password)
                 };
 
                 _context.Users.Add(user);
