@@ -1,5 +1,6 @@
 ﻿using Ecommerce.DataBase;
 using Ecommerce.DTO;
+using Ecommerce.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace Ecommerce.Controllers
                 if (userExisting != null)
                     return Conflict("User already exists in the database!");
 
-                User user = new()
+                UserEntity user = new()
                 {
                     Name = userInfo.Name,
                     Email = userInfo.Email,
@@ -35,7 +36,7 @@ namespace Ecommerce.Controllers
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
-                return Ok("User successfully registered!");
+                return StatusCode(201, "User successfully registered!");
             }
             catch (Exception ex)
             {

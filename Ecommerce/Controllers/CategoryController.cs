@@ -1,5 +1,6 @@
 ﻿using Ecommerce.DataBase;
 using Ecommerce.DTO;
+using Ecommerce.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,12 +22,12 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                Category categoryData = _context.Categories.FirstOrDefault(cat => cat.Title == categoryDto.Title);
+                CategoryEntity categoryData = _context.Categories.FirstOrDefault(cat => cat.Title == categoryDto.Title);
 
                 if (categoryData != null)
                     return Conflict("Category already exists in the database!");
 
-                Category category = new()
+                CategoryEntity category = new()
                 {
                     Title = categoryDto.Title,
                     Description = categoryDto.Description
@@ -34,7 +35,7 @@ namespace Ecommerce.Controllers
 
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
-                return Ok(category);
+                return StatusCode(201, "Category successfully created!");
             }
             catch (Exception ex)
             {
@@ -43,11 +44,11 @@ namespace Ecommerce.Controllers
         }
 
         [HttpGet("GetCategory/{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
+                CategoryEntity category = _context.Categories.FirstOrDefault(category => category.Id == id);
 
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
@@ -61,11 +62,11 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPut("UpdateCategory{id}")]
-        public async Task<IActionResult> Update([FromBody] CategoryDTO categoryDTO, string id)
+        public async Task<IActionResult> Update([FromBody] CategoryDTO categoryDTO, int id)
         {
             try
             {
-                Category categoryData = _context.Categories.FirstOrDefault(category => category.ID == id);
+                CategoryEntity categoryData = _context.Categories.FirstOrDefault(category => category.Id == id);
 
                 if (categoryData == null)
                     return NotFound($"No record was found for the ID: {id}");
@@ -85,11 +86,11 @@ namespace Ecommerce.Controllers
         }
 
         [HttpDelete("DeleteCategory{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                Category category = _context.Categories.FirstOrDefault(category => category.ID == id);
+                CategoryEntity category = _context.Categories.FirstOrDefault(category => category.Id == id);
 
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
