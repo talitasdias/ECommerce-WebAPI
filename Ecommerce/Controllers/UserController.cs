@@ -11,6 +11,7 @@ namespace Ecommerce.Controllers
     public class UserController : ControllerBase
     {
         private readonly ECommerceDbContext _context;
+        private const int WorkFactor = 12;
 
         public UserController(ECommerceDbContext context)
         {
@@ -30,7 +31,7 @@ namespace Ecommerce.Controllers
                 {
                     Name = userInfo.Name,
                     Email = userInfo.Email,
-                    Password = BC.HashPassword(userInfo.Password)
+                    Password = BC.HashPassword(userInfo.Password, WorkFactor)
                 };
 
                 _context.Users.Add(user);
