@@ -27,6 +27,9 @@ namespace Ecommerce.Controllers
                 if (userExisting != null)
                     return Conflict("User already exists in the database!");
 
+                if (userInfo.Password != userInfo.ConfirmPassword)
+                    return StatusCode(400, "Passwords do not match!");
+
                 UserEntity user = new()
                 {
                     Name = userInfo.Name,
