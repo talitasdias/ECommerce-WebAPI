@@ -22,7 +22,7 @@ namespace Ecommerce.Entities
         public DateTime CreatedAt { get; private set; } = DateTime.Now;
 
         [Column(TypeName = "bool")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [Column(TypeName = "integer")]
         public int CategoryId { get; set; }
