@@ -22,7 +22,7 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                CategoryEntity categoryData = _context.Categories.FirstOrDefault(cat => cat.Title == categoryDto.Title);
+                CategoryEntity? categoryData = _context.Categories.FirstOrDefault(cat => cat.Title == categoryDto.Title);
 
                 if (categoryData != null)
                     return Conflict("Category already exists in the database!");
@@ -44,11 +44,11 @@ namespace Ecommerce.Controllers
         }
 
         [HttpGet("GetCategory/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public IActionResult GetById(int id)
         {
             try
             {
-                CategoryEntity category = _context.Categories.FirstOrDefault(category => category.Id == id);
+                CategoryEntity? category = _context.Categories.FirstOrDefault(category => category.Id == id);
 
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
@@ -66,7 +66,7 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                CategoryEntity categoryData = _context.Categories.FirstOrDefault(category => category.Id == id);
+                CategoryEntity? categoryData = _context.Categories.FirstOrDefault(category => category.Id == id);
 
                 if (categoryData == null)
                     return NotFound($"No record was found for the ID: {id}");
@@ -90,7 +90,7 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                CategoryEntity category = _context.Categories.FirstOrDefault(category => category.Id == id);
+                CategoryEntity? category = _context.Categories.FirstOrDefault(category => category.Id == id);
 
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
