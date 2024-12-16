@@ -3,6 +3,7 @@ using Ecommerce.DTO;
 using Ecommerce.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Controllers
 {
@@ -48,7 +49,9 @@ namespace Ecommerce.Controllers
         {
             try
             {
-                CategoryEntity? category = _context.Categories.FirstOrDefault(category => category.Id == id);
+                CategoryEntity? category = _context.Categories
+                    .Include(cat => cat.Products)
+                    .FirstOrDefault(category => category.Id == id);
 
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
