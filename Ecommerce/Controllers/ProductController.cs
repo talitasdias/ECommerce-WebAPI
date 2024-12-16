@@ -20,23 +20,30 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertProduct([FromBody] ProductDTO productDto)
         {
-            var categoryExisting = _context.Categories.FirstOrDefault(cat => cat.Id == productDto.CategoryId);
-            if (categoryExisting == null)
-                return NotFound($"There is not Category for the Id {productDto.CategoryId}");
-
-            ProductEntity product = new()
+            try
             {
-                Name = productDto.Name,
-                Price = productDto.Price,
-                Quantity = productDto.Quantity,
-                CategoryId = productDto.CategoryId,
-                Category = categoryExisting
-            };
+                var categoryExisting = _context.Categories.FirstOrDefault(cat => cat.Id == productDto.CategoryId);
+                if (categoryExisting == null)
+                    return NotFound($"There is not Category for the Id {productDto.CategoryId}");
 
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+                ProductEntity product = new()
+                {
+                    Name = productDto.Name,
+                    Price = productDto.Price,
+                    Quantity = productDto.Quantity,
+                    CategoryId = productDto.CategoryId,
+                    Category = categoryExisting
+                };
 
-            return StatusCode(201, "criado");
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
+                return StatusCode(201, "Product created successfully!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
