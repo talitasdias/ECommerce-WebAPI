@@ -22,7 +22,6 @@ namespace Ecommerce.Entities
         [Column(TypeName = "bool")]
         public bool IsActive { get; set; } = true;
 
-        [JsonIgnore]
-        public ICollection<ProductEntity>? Product { get; set; }
+        public ICollection<ProductEntity>? Products { get; }
     }
 }
