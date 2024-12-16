@@ -3,6 +3,7 @@ using Ecommerce.DTO;
 using Ecommerce.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Controllers
 {
@@ -39,6 +40,26 @@ namespace Ecommerce.Controllers
                 await _context.SaveChangesAsync();
 
                 return StatusCode(201, "Product created successfully!");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            try
+            {
+                var productExisting = await _context.Products
+                    .Include(cat => cat.Category)
+                    .FirstOrDefaultAsync(pro => pro.Id == id);
+
+                if (productExisting == null)
+                    return NotFound($"There is not product for the Id {id}");
+
+                return Ok(productExisting);
             }
             catch (Exception ex)
             {
