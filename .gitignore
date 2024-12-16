@@ -1,4 +1,3 @@
-/Migrations/
 # Ignorar binários gerados
 bin/
 obj/
