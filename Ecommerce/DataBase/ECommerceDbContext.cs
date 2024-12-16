@@ -7,5 +7,6 @@ namespace Ecommerce.DataBase
     {
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities
 {
@@ -17,5 +18,7 @@ namespace Ecommerce.Entities
 
         [Column(TypeName = "datetime")]
         public DateTime CreatedAt { get; private set; } = DateTime.Now;
+
+        public ICollection<ProductEntity>? Product { get; set; }
     }
 }
