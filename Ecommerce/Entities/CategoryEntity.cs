@@ -19,6 +19,9 @@ namespace Ecommerce.Entities
         [Column(TypeName = "datetime")]
         public DateTime CreatedAt { get; private set; } = DateTime.Now;
 
+        [Column(TypeName = "bool")]
+        public bool IsActive { get; set; } = true;
+
         public ICollection<ProductEntity>? Product { get; set; }
     }
 }
