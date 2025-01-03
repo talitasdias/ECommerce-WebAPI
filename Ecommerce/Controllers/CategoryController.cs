@@ -92,7 +92,7 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPut("UpdateCategory{id}")]
-        public async Task<IActionResult> Update([FromBody] CreateCategoryInputDTO categoryDTO, int id)
+        public async Task<IActionResult> Update([FromBody] UpdateCategoryInputDTO categoryDTO, int id)
         {
             try
             {
@@ -107,7 +107,16 @@ namespace Ecommerce.Controllers
                 _context.Categories.Update(categoryData);
                 await _context.SaveChangesAsync();
 
-                return Ok(categoryData);
+                UpdateCategoryOutputDTO categoryOutput = new()
+                {
+                    Id = categoryData.Id,
+                    Title = categoryData.Title,
+                    Description = categoryData.Description,
+                    CreatedAt = categoryData.CreatedAt,
+                    IsActive = categoryData.IsActive
+                };
+
+                return Ok(categoryOutput);
             }
             catch (Exception ex)
             {
