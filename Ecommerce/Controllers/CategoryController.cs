@@ -19,7 +19,7 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost("InsertCategory")]
-        public async Task<IActionResult> Insert([FromBody] CategoryDTO categoryDto)
+        public async Task<IActionResult> Insert([FromBody] CreateCategoryInputDTO categoryDto)
         {
             try
             {
@@ -36,7 +36,16 @@ namespace Ecommerce.Controllers
 
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
-                return StatusCode(201, "Category successfully created!");
+
+                CreateCategoryOutputDTO categoryOutput = new()
+                {
+                    Id = category.Id,
+                    Title = category.Title,
+                    Description = category.Description,
+                    CreatedAt = category.CreatedAt
+                };
+
+                return StatusCode(201, categoryOutput);
             }
             catch (Exception ex)
             {
@@ -56,7 +65,25 @@ namespace Ecommerce.Controllers
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
 
-                return Ok(category);
+                GetCategoryDTO categoryDTO = new()
+                {
+                    Id = category.Id,
+                    Title = category.Title,
+                    Description = category.Description,
+                    CreatedAt = category.CreatedAt,
+                    IsActive = category.IsActive,
+                    Products = category.Products?.Select(pro => new ProductDTO
+                    {
+                        Id = pro.Id,
+                        Name = pro.Name,
+                        Price = pro.Price,
+                        Quantity = pro.Quantity,
+                        CreatedAt = pro.CreatedAt,
+                        IsActive = pro.IsActive
+                    }).ToList()
+                };
+
+                return Ok(categoryDTO);
             }
             catch (Exception ex)
             {
@@ -65,7 +92,7 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPut("UpdateCategory{id}")]
-        public async Task<IActionResult> Update([FromBody] CategoryDTO categoryDTO, int id)
+        public async Task<IActionResult> Update([FromBody] CreateCategoryInputDTO categoryDTO, int id)
         {
             try
             {
