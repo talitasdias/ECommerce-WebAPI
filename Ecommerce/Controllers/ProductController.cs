@@ -19,7 +19,7 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertProduct([FromBody] ProductDTO productDto)
+        public async Task<IActionResult> InsertProduct([FromBody] CreateProductInputDTO productDto)
         {
             try
             {
@@ -39,7 +39,17 @@ namespace Ecommerce.Controllers
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
-                return StatusCode(201, "Product created successfully!");
+                CreateProductOutputDTO productOutput = new()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Quantity = product.Quantity,
+                    CreatedAt = product.CreatedAt,
+                    CategoryId = product.CategoryId
+                };
+
+                return StatusCode(201, productOutput);
             }
             catch (Exception ex)
             {
