@@ -69,7 +69,17 @@ namespace Ecommerce.Controllers
                 if (productExisting == null)
                     return NotFound($"There is not product for the Id {id}");
 
-                return Ok(productExisting);
+                GetProductDTO product = new()
+                {
+                    Id = productExisting.Id,
+                    Name = productExisting.Name,
+                    Price = productExisting.Price,
+                    Quantity = productExisting.Quantity,
+                    CreatedAt = productExisting.CreatedAt,
+                    Category = productExisting.Category
+                };
+
+                return Ok(product);
             }
             catch (Exception ex)
             {
