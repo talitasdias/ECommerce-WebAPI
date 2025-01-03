@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities
 {
@@ -22,7 +21,6 @@ namespace Ecommerce.Entities
         [Column(TypeName = "bool")]
         public bool IsActive { get; set; } = true;
 
-        [JsonIgnore]
         public ICollection<ProductEntity>? Products { get; }
     }
 }

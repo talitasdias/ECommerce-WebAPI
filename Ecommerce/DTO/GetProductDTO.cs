@@ -1,6 +1,4 @@
-﻿using Ecommerce.Entities;
-
-namespace Ecommerce.DTO
+﻿namespace Ecommerce.DTO
 {
     public class GetProductDTO
     {
@@ -9,6 +7,6 @@ namespace Ecommerce.DTO
         public double Price { get; set; }
         public int Quantity { get; set; }
         public DateTime CreatedAt { get; set; }
-        public required CategoryEntity Category { get; set; }
+        public required CategoryDTO Category { get; set; }
     }
 }

@@ -76,7 +76,14 @@ namespace Ecommerce.Controllers
                     Price = productExisting.Price,
                     Quantity = productExisting.Quantity,
                     CreatedAt = productExisting.CreatedAt,
-                    Category = productExisting.Category
+                    Category = new CategoryDTO()
+                    {
+                        Id = productExisting.Category.Id,
+                        Title = productExisting.Category.Title,
+                        Description = productExisting.Category.Description,
+                        CreatedAt = productExisting.Category.CreatedAt,
+                        IsActive = productExisting.Category.IsActive
+                    }
                 };
 
                 return Ok(product);
