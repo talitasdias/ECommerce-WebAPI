@@ -1,6 +1,7 @@
 ﻿using Ecommerce.DataBase;
-using Ecommerce.DTO;
+using Ecommerce.DTO.Category;
 using Ecommerce.Entities;
+using Ecommerce.Mapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,15 +38,9 @@ namespace Ecommerce.Controllers
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
 
-                CreateCategoryOutputDTO categoryOutput = new()
-                {
-                    Id = category.Id,
-                    Title = category.Title,
-                    Description = category.Description,
-                    CreatedAt = category.CreatedAt
-                };
+                CreateCategoryOutputDTO result = CategoryEntityToCreateCategoryOutputDTO.Make(category);
 
-                return StatusCode(201, categoryOutput);
+                return StatusCode(201, result);
             }
             catch (Exception ex)
             {
@@ -65,25 +60,9 @@ namespace Ecommerce.Controllers
                 if (category == null)
                     return NotFound($"No record was found for the ID: {id}");
 
-                GetCategoryDTO categoryDTO = new()
-                {
-                    Id = category.Id,
-                    Title = category.Title,
-                    Description = category.Description,
-                    CreatedAt = category.CreatedAt,
-                    IsActive = category.IsActive,
-                    Products = category.Products?.Select(pro => new ProductDTO
-                    {
-                        Id = pro.Id,
-                        Name = pro.Name,
-                        Price = pro.Price,
-                        Quantity = pro.Quantity,
-                        CreatedAt = pro.CreatedAt,
-                        IsActive = pro.IsActive
-                    }).ToList()
-                };
+                GetCategoryDTO result = CategoryEntityToGetCategoryDTO.Make(category);
 
-                return Ok(categoryDTO);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -91,7 +70,7 @@ namespace Ecommerce.Controllers
             }
         }
 
-        [HttpPut("UpdateCategory{id}")]
+        [HttpPut("UpdateCategory/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateCategoryInputDTO categoryDTO, int id)
         {
             try
@@ -107,16 +86,9 @@ namespace Ecommerce.Controllers
                 _context.Categories.Update(categoryData);
                 await _context.SaveChangesAsync();
 
-                UpdateCategoryOutputDTO categoryOutput = new()
-                {
-                    Id = categoryData.Id,
-                    Title = categoryData.Title,
-                    Description = categoryData.Description,
-                    CreatedAt = categoryData.CreatedAt,
-                    IsActive = categoryData.IsActive
-                };
+                UpdateCategoryOutputDTO result = CategoryEntityToUpdateCategoryOutputDTO.Make(categoryData);
 
-                return Ok(categoryOutput);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -124,7 +96,7 @@ namespace Ecommerce.Controllers
             }
         }
 
-        [HttpDelete("DeleteCategory{id}")]
+        [HttpDelete("DeleteCategory/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try

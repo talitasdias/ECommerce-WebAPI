@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.DTO
+﻿namespace Ecommerce.DTO.Category
 {
     public class UpdateCategoryInputDTO
     {

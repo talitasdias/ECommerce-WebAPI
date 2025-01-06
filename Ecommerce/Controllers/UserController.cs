@@ -1,5 +1,5 @@
 ﻿using Ecommerce.DataBase;
-using Ecommerce.DTO;
+using Ecommerce.DTO.User;
 using Ecommerce.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

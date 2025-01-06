@@ -1,6 +1,7 @@
 ﻿using Ecommerce.DataBase;
-using Ecommerce.DTO;
+using Ecommerce.DTO.Product;
 using Ecommerce.Entities;
+using Ecommerce.Mapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace Ecommerce.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost("InsertProduct")]
         public async Task<IActionResult> InsertProduct([FromBody] CreateProductInputDTO productDto)
         {
             try
@@ -39,17 +40,9 @@ namespace Ecommerce.Controllers
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
-                CreateProductOutputDTO productOutput = new()
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = product.Quantity,
-                    CreatedAt = product.CreatedAt,
-                    CategoryId = product.CategoryId
-                };
+                CreateProductOutputDTO result = ProductEntityToCreateProductOutputDTO.Make(product);
 
-                return StatusCode(201, productOutput);
+                return StatusCode(201, result);
             }
             catch (Exception ex)
             {
@@ -57,7 +50,7 @@ namespace Ecommerce.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetProductById/{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
             try
@@ -69,24 +62,9 @@ namespace Ecommerce.Controllers
                 if (productExisting == null)
                     return NotFound($"There is not product for the Id {id}");
 
-                GetProductDTO product = new()
-                {
-                    Id = productExisting.Id,
-                    Name = productExisting.Name,
-                    Price = productExisting.Price,
-                    Quantity = productExisting.Quantity,
-                    CreatedAt = productExisting.CreatedAt,
-                    Category = new CategoryDTO()
-                    {
-                        Id = productExisting.Category.Id,
-                        Title = productExisting.Category.Title,
-                        Description = productExisting.Category.Description,
-                        CreatedAt = productExisting.Category.CreatedAt,
-                        IsActive = productExisting.Category.IsActive
-                    }
-                };
+                GetProductDTO result = ProductEntityToGetProductDTO.Make(productExisting);
 
-                return Ok(product);
+                return Ok(result);
             }
             catch (Exception ex)
             {

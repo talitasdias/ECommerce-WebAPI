@@ -1,12 +1,17 @@
-﻿namespace Ecommerce.DTO
+﻿namespace Ecommerce.DTO.Product
 {
-    public class GetProductDTO
+    public class ProductDTO
     {
         public int Id { get; set; }
+
         public required string Name { get; set; }
+
         public double Price { get; set; }
+
         public int Quantity { get; set; }
+
         public DateTime CreatedAt { get; set; }
-        public required CategoryDTO Category { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

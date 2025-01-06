@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.DTO
+﻿namespace Ecommerce.DTO.User
 {
     public class UserDto
     {
