@@ -70,6 +70,23 @@ namespace Ecommerce.Controllers
             }
         }
 
+        [HttpGet("GetAllCategories")]
+        public IActionResult GetAllCategories()
+        {
+            try
+            {
+                List<CategoryEntity> listCategory = _context.Categories.ToList();
+
+                var result = CategoryEntityToGetAllCategoryDTO.Make(listCategory);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPut("UpdateCategory/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateCategoryInputDTO categoryDTO, int id)
         {
